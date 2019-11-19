@@ -10,7 +10,7 @@ STOPPING_TARGET_SPEED = MIN_CAN_SPEED + 0.01
 STARTING_TARGET_SPEED = 0.5
 BRAKE_THRESHOLD_TO_PID = 0.2
 
-STOPPING_BRAKE_RATE = 0.7  # brake_travel/s while trying to stop
+STOPPING_BRAKE_RATE = 5.0 # brake_travel/s while trying to stop
 STARTING_BRAKE_RATE = 0.8  # brake_travel/s while releasing on restart
 BRAKE_STOPPING_TARGET = 1.0  # apply at least this amount of brake to maintain the vehicle stationary
 
@@ -98,7 +98,7 @@ class LongControl():
 
       # Toyota starts braking more when it thinks you want to stop
       # Freeze the integrator so we don't accelerate to compensate, and don't allow positive acceleration
-      prevent_overshoot = not CP.stoppingControl and v_ego < 1.5 and v_target_future < 0.7
+      prevent_overshoot = not CP.stoppingControl and v_ego < 1.5 and v_target_future < 1.5
       deadzone = interp(v_ego_pid, CP.longitudinalTuning.deadzoneBP, CP.longitudinalTuning.deadzoneV)
 
       output_gb = self.pid.update(self.v_pid, v_ego_pid, speed=v_ego_pid, deadzone=deadzone, feedforward=a_target, freeze_integrator=prevent_overshoot)
